@@ -1,0 +1,116 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: url('bnhs.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px); /* Creates a glass effect */
+    max-width: 350px;  /* Limits to a medium size */
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.highlight {
+    color: #2e09ec;
+    font-weight: bold;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    background: #f1f1f1;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.input-group img {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.input-group input {
+    border: none;
+    background: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+}
+
+.toggle {
+    font-size: 12px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.forgot {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.forgot a {
+    font-size: 12px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.register-link {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+.error-msg {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #d8000c;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeInOut 5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
