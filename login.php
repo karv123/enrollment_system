@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($student && password_verify($password, $student['password'])) {
         $_SESSION['student_name'] = $student['firstname']; // Use your preferred column
-        header("Location: dashboard.php");
+        header("Location: student_dashboard.php");
         exit();
     }
 
