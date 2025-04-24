@@ -11,6 +11,7 @@ $result = $conn->query($query);
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   
   <meta charset="UTF-8">
   <title>Enrollment Report</title>
   <style>
@@ -51,6 +52,9 @@ $result = $conn->query($query);
   </script>
 </head>
 <body>
+<a href="admin_dashboard.php" class="fixed top-4 right-4 text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-full shadow-lg z-50 text-sm">
+        ✕
+    </a>
 
   <div class="container">
     <h1>Enrollment Report</h1>

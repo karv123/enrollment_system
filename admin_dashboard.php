@@ -22,8 +22,7 @@ if (!isset($_SESSION['admin_name']))
     <a href="verify_students.php" class="hover:bg-blue-700 px-4 py-2 rounded">✔️ Verify Enrollments</a>
     <a href="verify_documents.php" class="hover:bg-blue-700 px-4 py-2 rounded">📄 Verify Documents</a>
     <a href="manage_students.php" class="hover:bg-blue-700 px-4 py-2 rounded">👨‍🎓 Manage Students</a>
-    <a href="update_status.php" class="hover:bg-blue-700 px-4 py-2 rounded">🔄 Update Enrollment Status</a>
-
+   
     <!-- Reports Dropdown -->
     <div class="relative group">
       <button class="w-full text-left hover:bg-blue-700 px-4 py-2 rounded flex justify-between items-center">

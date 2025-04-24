@@ -25,6 +25,10 @@ $result = $conn->query("SELECT * FROM subjects");
   <title>Manage Subjects</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<a href="admin_dashboard.php" class="fixed top-4 right-4 text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-full shadow-lg z-50 text-sm">
+        ✕
+    </a>
+
 <body class="bg-gray-100 font-sans">
 
   <!-- Sidebar -->
