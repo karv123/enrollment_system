@@ -1,14 +1,39 @@
 <?php
 session_start();
-if (!isset($_SESSION['student_name'])) 
+$conn = new mysqli("localhost", "root", "", "enrollment");
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to login page or show access denied
+  
+    
+}
+
+// Get user ID securely
+$user_id = intval($_SESSION['user_id']);
+
+// Get enrollment status
+$status = "Not Enrolled";
+$result = $conn->query("SELECT status FROM enroll WHERE user_id = $user_id");
+
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $status = ucfirst($row['status']);
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sidebar Menu</title>
+  <title>Student Dashboard</title>
   <style>
     body {
       margin: 0;
@@ -84,6 +109,14 @@ if (!isset($_SESSION['student_name']))
       flex: 1;
       padding: 40px;
     }
+
+    .status-box {
+      padding: 15px;
+      background: #fff;
+      border-left: 5px solid #3498db;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
@@ -125,7 +158,7 @@ if (!isset($_SESSION['student_name']))
       <div class="menu-content">
         <ul>
           <li>My Account</li>
-          <li>Log out</li>
+          <li><a href="logout.php" style="color: #ecf0f1; text-decoration: none;">Log out</a></li>
         </ul>
       </div>
     </div>
@@ -134,6 +167,10 @@ if (!isset($_SESSION['student_name']))
   <div class="main-content">
     <h1>Welcome to the Student Portal</h1>
     <p>Select an option from the sidebar to get started.</p>
+
+    <div class="status-box">
+      <strong>Enrollment Status:</strong> <?= $status ?>
+    </div>
   </div>
 
   <script>

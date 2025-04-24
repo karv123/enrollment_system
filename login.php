@@ -3,37 +3,38 @@ session_start();
 include 'enrollment.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $input = $_POST['email'];  // this will be either email or username
+    $input = $_POST['email'];  // email or username
     $password = $_POST['password'];
 
-    // Check if input is an email or username and query admin table
+    // Check admin login
     $stmt = $conn->prepare("SELECT * FROM admin WHERE email = ? OR username = ?");
-    $stmt->bind_param("ss", $input, $input); // Binding both email and username for comparison
+    $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
     $admin_result = $stmt->get_result();
     $admin = $admin_result->fetch_assoc();
 
-    // Check if admin exists and compare plaintext passwords
-    if ($admin && $password === $admin['password']) { // Direct comparison for plaintext password
-        $_SESSION['admin_name'] = $admin['username']; // Use admin column name
+    if ($admin && $password === $admin['password']) {
+        $_SESSION['admin_name'] = $admin['username'];
+        $_SESSION['admin_id'] = $admin['id']; // Optional if you need it
         header("Location: admin_dashboard.php");
         exit();
     }
 
-    // If not admin, check student table
+    // Check student login
     $stmt = $conn->prepare("SELECT * FROM students WHERE email = ? OR username = ?");
-    $stmt->bind_param("ss", $input, $input); // Binding both email and username for comparison
+    $stmt->bind_param("ss", $input, $input);
     $stmt->execute();
     $student_result = $stmt->get_result();
     $student = $student_result->fetch_assoc();
 
     if ($student && password_verify($password, $student['password'])) {
-        $_SESSION['student_name'] = $student['firstname']; // Use your preferred column
+        $_SESSION['student_name'] = $student['firstname'];
+        $_SESSION['user_id'] = $student['id']; // ✅ This is the key you're missing
         header("Location: student_dashboard.php");
         exit();
     }
 
-    // If none match
+    // If login fails
     $error = "Invalid email/username or password.";
 }
 ?>

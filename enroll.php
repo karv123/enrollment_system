@@ -1,9 +1,22 @@
 <?php
 $conn = new mysqli("localhost", "root", "", "enrollment");
 
-// Check if the form is submitted (to avoid accessing undefined POST keys)
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
+require 'phpmailer/src/Exception.php';
+require 'phpmailer/src/PHPMailer.php';
+require 'phpmailer/src/SMTP.php';
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $allowed_enrollment_types = ['new', 'transferee'];
+  $enrollment_type = isset($_POST['enrollment_type']) ? $_POST['enrollment_type'] : '';
+
+  if (!in_array($enrollment_type, $allowed_enrollment_types)) {
+      echo "Error: Only new students and transferees are allowed to enroll on this page.";
+      exit;
+  }
     function calculateAge($birthdate) {
         $today = new DateTime();
         $birth = new DateTime($birthdate);
@@ -108,22 +121,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <title>Student Enrollment</title>
   <script>
-    // Function to toggle visibility of Senior High options
-    function toggleSeniorHighOptions() {
+    function toggleStudentTypeFields() {
       var studentType = document.querySelector('select[name="student_type"]').value;
       var seniorHighFields = document.getElementById('senior-high-fields');
-      
+      var juniorHighFields = document.getElementById('junior-high-fields');
+
       if (studentType === 'senior') {
-        seniorHighFields.style.display = 'block'; // Show Senior High fields
+        seniorHighFields.style.display = 'block';
+        juniorHighFields.style.display = 'none';
+      } else if (studentType === 'junior') {
+        juniorHighFields.style.display = 'block';
+        seniorHighFields.style.display = 'none';
       } else {
-        seniorHighFields.style.display = 'none'; // Hide Senior High fields
+        seniorHighFields.style.display = 'none';
+        juniorHighFields.style.display = 'none';
       }
     }
 
-    // Event listener to run the toggle function when student type changes
     window.onload = function() {
-      toggleSeniorHighOptions(); // Ensure the right options are shown on page load
-      document.querySelector('select[name="student_type"]').addEventListener('change', toggleSeniorHighOptions);
+      toggleStudentTypeFields();
+      document.querySelector('select[name="student_type"]').addEventListener('change', toggleStudentTypeFields);
     };
   </script>
 </head>
@@ -151,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label>Enrollment Type:</label><br>
     <select name="enrollment_type">
       <option value="new">New</option>
-      <option value="returning">Returning</option>
+      <option value="returning">Transferee</option>
     </select><br><br>
 
     <label>Student Type:</label><br>
@@ -160,7 +177,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <option value="senior">Senior High School</option>
     </select><br><br>
 
-    <!-- Senior High fields will be hidden if the student selects Junior High -->
+    <!-- Junior High fields -->
+    <div id="junior-high-fields" style="display: none;">
+      <label>Grade Level (Junior High School Only):</label><br>
+      <select name="grade_level">
+        <option value="7">Grade 7</option>
+        <option value="8">Grade 8</option>
+        <option value="9">Grade 9</option>
+        <option value="10">Grade 10</option>
+      </select><br><br>
+    </div>
+
+    <!-- Senior High fields -->
     <div id="senior-high-fields" style="display: none;">
       <label>Grade Level (Senior High School Only):</label><br>
       <select name="grade_level">
@@ -170,10 +198,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <label>Strand (Senior High School Only):</label><br>
       <select name="strand_id">
-        <option value="1">STEM</option>
-        <option value="2">ABM</option>
-        <option value="3">HUMSS</option>
-        <option value="4">TVL</option>
+        <option value="1">ELEC</option>
+        <option value="2">HUMSS</option>
+        <option value="3">TVL</option>
       </select><br><br>
     </div>
 
